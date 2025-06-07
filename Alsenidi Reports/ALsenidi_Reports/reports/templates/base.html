@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}السُّنيدي{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'reports/style.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+        nav {
+            padding: 10px 20px;
+            background: #0275d8;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        nav .left, nav .right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .user-greeting {
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        .owner-info {
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .owner-info span {
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: #d0e4ff;
+        }
+        footer {
+            text-align:center;
+            margin: 30px 0;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        footer a {
+            color: #0275d8;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="left">
+                {% if user.is_authenticated and user.username == "hamad" %}
+                <div class="owner-info">
+                    <strong>Hamad - Owner - Data Leader</strong>
+                    <span>🛡️</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="right">
+                {% if user.is_authenticated %}
+                    <span class="user-greeting">مرحبا، {{ user.username }}</span>
+                    <a href="{% url 'report_list' %}">التقارير</a>
+                    <a href="{% url 'upload_report' %}">رفع تقرير</a>
+                    {% if user.username == "hamad" %}
+                    <a href="{% url 'manage_permissions' %}">إدارة صلاحيات الأقسام</a>
+                    {% endif %}
+                    <a href="{% url 'logout' %}">تسجيل خروج</a>
+                {% else %}
+                    <a href="{% url 'login' %}">تسجيل دخول</a>
+                    <a href="{% url 'register' %}">تسجيل جديد</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% if messages %}
+            <ul style="color: red; list-style:none; padding:0;">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>حقوق النشر &copy; 2025 السُّنيدي</p>
+    </footer>
+</body>
+</html>

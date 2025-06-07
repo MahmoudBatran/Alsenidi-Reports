@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}قائمة التقارير{% endblock %}
+
+{% block content %}
+<main style="display: flex; gap: 24px; max-width: 1100px; margin: 50px auto; direction: rtl; font-family: 'Cairo', sans-serif; color: #333;">
+    
+    <aside style="width: 240px; background: #f9fafb; border-radius: 10px; padding: 22px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h3 style="margin-bottom: 20px; font-weight: 700; font-size: 1.2em; color: #0456a0;">الأقسام</h3>
+        <ul class="section-list" style="list-style: none; padding: 0; margin: 0;">
+            <li>
+                <a href="?section=all" class="{% if selected_section == 'all' %}active{% endif %}" 
+                   style="display:block; padding: 10px 14px; text-decoration:none; color:#333; font-weight: {% if selected_section == 'all' %}700{% else %}500{% endif %}; border-radius: 6px; 
+                   background-color: {% if selected_section == 'all' %}#d6e4ff{% else %}transparent{% endif %}; transition: background-color 0.3s;">
+                   الكل
+                </a>
+            </li>
+            {% for section in sections %}
+                <li>
+                    <a href="?section={{ section.code }}" class="{% if selected_section == section.code %}active{% endif %}" 
+                       style="display:block; padding: 10px 14px; text-decoration:none; color:#333; font-weight: {% if selected_section == section.code %}700{% else %}500{% endif %}; border-radius: 6px; 
+                       background-color: {% if selected_section == section.code %}#d6e4ff{% else %}transparent{% endif %}; transition: background-color 0.3s;">
+                        {{ section.name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </aside>
+
+    <section class="reports-section" style="flex-grow: 1; background: #fff; padding: 28px 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        
+
+        <h1 style="margin-bottom: 30px; border-bottom: 3px solid #0366d6; padding-bottom: 10px; font-weight: 800; font-size: 2em; color: #0a3d62;">التقارير</h1>
+        
+        <form method="get" class="filter-form" style="display: flex; gap: 20px; align-items: center; margin-bottom: 30px; justify-content: center; flex-wrap: wrap;">
+            <label for="date_from" style="font-weight: 600; color: #0366d6;">من تاريخ:</label>
+            <input id="date_from" type="date" name="date_from" value="{{ date_from }}" 
+                   style="padding: 8px 14px; border-radius: 6px; border: 1.8px solid #ccc; font-size: 1em; outline-offset: 2px; transition: border-color 0.3s;" />
+            
+            <label for="date_to" style="font-weight: 600; color: #0366d6;">إلى تاريخ:</label>
+            <input id="date_to" type="date" name="date_to" value="{{ date_to }}" 
+                   style="padding: 8px 14px; border-radius: 6px; border: 1.8px solid #ccc; font-size: 1em; outline-offset: 2px; transition: border-color 0.3s;" />
+            
+            <button type="submit" 
+                    style="padding: 10px 24px; background-color: #0366d6; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 1em; box-shadow: 0 3px 8px rgba(3,102,214,0.5);">
+                فلتر
+            </button>
+        </form>
+
+        <ul class="reports-list" style="list-style: none; padding: 0; margin: 0;">
+            {% for report in reports %}
+                <li style="border-bottom: 1px solid #ddd; padding: 18px 0;">
+                    <h3 style="margin: 0 0 8px; font-weight: 700; font-size: 1.3em; color: #034c8c;">{{ report.title }}</h3>
+                    <p style="margin: 4px 0; font-weight: 600;">القسم: <span style="color: #0366d6;">{{ report.section.name }}</span></p>
+                    <p style="margin: 4px 0; font-size: 0.9em; color: #555;">الوصف: {{ report.description|default:"لا يوجد" }}</p>
+                    <a href="{{ report.report_file.url }}" target="_blank" 
+                       style="display: inline-block; margin-top: 6px; font-weight: 700; color: #0366d6; text-decoration: underline; cursor: pointer;">تحميل التقرير</a>
+                </li>
+            {% empty %}
+                <li style="color: #999; padding: 20px; text-align: center;">لا توجد تقارير لعرضها</li>
+            {% endfor %}
+        </ul>
+    </section>
+</main>
+{% endblock %}

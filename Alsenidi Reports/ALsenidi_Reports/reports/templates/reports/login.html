@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}تسجيل الدخول{% endblock %}
+
+{% block content %}
+<section style="max-width: 800px; margin: 60px auto; padding: 30px; background: #f9f9f9; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); font-family: 'Cairo', sans-serif; text-align: right; direction: rtl;">
+    
+    <h2 style="color: #0275d8; margin-bottom: 20px;">عن الشركة</h2>
+    <p style="color: #444; line-height: 1.8;">
+        العام 1965 ومن قلب المملكة العربية السعودية في (جـردة بريدة) كانت البدايات لشركة السنيدي في محل صغير يلبي الاحتياجات البسيطة – وقتها - لمحبي الرحلات وملاك الإبل المحليين.
+        إلى أن توسعـت الشركة بأكبر صالات للعرض في الشرق الأوسط للوازم الرحلات والسفر، في مدن متعددة من المملكة، وبعشرات الآلاف من المنتجـات الخاصة، والو﻿كالات الحصرية، وبشبكة ضخمة من شركاء البيع في المملكة والعالم.
+        تفخر شركتنا هذا اليوم بعلامتها التجارية الرائدة؛ وبفريق عملها الكبير وبمجموعة مورديها المحليين ومن شتى أنحاء العالم.﻿ 
+    </p>
+
+    <hr style="margin: 30px 0;" />
+
+    <h3 style="color: #0275d8; margin-bottom: 20px;">تسجيل الدخول</h3>
+    
+    <form method="post" action="{% url 'login' %}" style="display: flex; flex-direction: column; gap: 15px;">
+        {% csrf_token %}
+        
+        <label for="id_username" style="font-weight: bold;">اسم المستخدم:</label>
+        <input type="text" name="username" id="id_username" required 
+               style="padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+
+        <label for="id_password" style="font-weight: bold;">كلمة المرور:</label>
+        <input type="password" name="password" id="id_password" required 
+               style="padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+
+        {% if form.errors %}
+            <p style="color: red;">اسم المستخدم أو كلمة المرور غير صحيحة.</p>
+        {% endif %}
+
+        <button type="submit" style="padding: 10px 20px; background: #0275d8; border: none; color: white; border-radius: 6px; cursor: pointer;">تسجيل دخول</button>
+    </form>
+</section>
+{% endblock %}

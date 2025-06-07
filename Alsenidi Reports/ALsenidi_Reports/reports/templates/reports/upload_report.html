@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}رفع تقرير جديد{% endblock %}
+
+{% block content %}
+<main style="max-width: 600px; margin: 50px auto; direction: rtl; font-family: 'Cairo', sans-serif;">
+    <h1 style="font-weight: 900; font-size: 2em; color: #0366d6; margin-bottom: 20px;">رفع تقرير جديد</h1>
+    <form method="post" enctype="multipart/form-data" style="background: #f9fafb; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" style="padding: 12px 26px; background: #0366d6; border: none; color: white; font-weight: 700; border-radius: 8px; cursor: pointer;">رفع</button>
+    </form>
+</main>
+{% endblock %}
